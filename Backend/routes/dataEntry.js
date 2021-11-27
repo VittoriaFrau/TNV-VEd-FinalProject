@@ -1,29 +1,79 @@
-const express = require('express');
-const router = express.Router();
-const DataEntry = require('../models/index').dataEntry;
+const DataEntry = require('../models').DataEntry;
 
-router.get('/', function (req, res, next) {
-    DataEntry.findAll({})
-        .then(dataEntry => res.json(dataEntry))
-        .catch(err => res.json(err))
-    ;
-});
+const getEntry = (req, res) => {
+  DataEntry.findAll({})
+    .then(entry => {
+      return res.status(200).send(entry)
+    })
+    .catch(err => {
+      return res.status(500).send(err)
+    });
+};
 
-router.get('/:id', function (req, res, next) {
-    DataEntry.findOne({
-            where: {
-                id: req.params.id
-            }
-        }
-    )
-        .then(dataEntry => res.json(dataEntry))
-        .catch(err => res.json(err));
-});
+const getEntryById = (req, res) => {
+  const entryId = req.params.id;
 
-router.post('/', function (req, res, next) {
-    const {name, cast, director, genre, rated, reviews, evaluation, releaseDate} = req.body;
+  DataEntry.findOne({
+    where: {
+      id: entryId
+    }
+  })
+    .then(entry => {
+      if (!entry) {
+        return res.status(404).send({
+          error: true,
+          message: 'The requested data does not exist.',
+          entryId
+        })
+      }
 
-    DataEntry.create({
+      return res.status(200).send(entry);
+    })
+    .catch(err => {
+      return res.status(500).send(err);
+    })
+};
+
+const createEntry = (req, res) => {
+  const {name, cast, director, genre, rated, reviews, evaluation, releaseDate} = req.body;
+
+  DataEntry.create({
+    name: name,
+    cast: cast,
+    director: director,
+    genre: genre,
+    rated: rated,
+    reviews: reviews,
+    evaluation: evaluation,
+    releaseDate: releaseDate,
+  })
+    .then(entry => {
+      return res.status(201).send(entry);
+    })
+    .catch(error => {
+      return res.status(500).send(error);
+    });
+};
+
+const editEntry = (req, res) => {
+  const entryId = req.params.id;
+  const {name, cast, director, genre, rated, reviews, evaluation, releaseDate} = req.body;
+
+  DataEntry.findOne({
+    where: {
+      id: entryId
+    }
+  })
+    .then(entry => {
+      if (!entry) {
+        return res.status(404).send({
+          error: true,
+          message: 'Cannot update a entry that does not exist.',
+          entryId
+        })
+      }
+
+      DataEntry.update({
         name: name,
         cast: cast,
         director: director,
@@ -32,57 +82,56 @@ router.post('/', function (req, res, next) {
         reviews: reviews,
         evaluation: evaluation,
         releaseDate: releaseDate,
-        
-    })
-        .then(dataEntry => res.status(201).json({
-            dataEntry
-        }))
-        .catch(error => res.status(500).json({
-            error
-        }));
-});
-
-router.put('/:id', function (req, res, next) {
-    const dataId = req.params.id;
-    const {name, cast, director, genre, rated, reviews, evaluation, releaseDate} = req.body;
-
-    DataEntry.update({
-        name: name,
-        cast: cast,
-        director: director,
-        genre: genre,
-        rated: rated,
-        reviews: reviews,
-        evaluation: evaluation,
-        releaseDate: releaseDate,
-    }, {
+      }, {
         where: {
-            id: dataId
+          id: entryId
         }
+      })
+        .then(updated => {
+          if(updated.pop() === 1) {
+            return res.status(201).send({
+              updated: true,
+              entryId
+            });
+          } else {
+            return res.status(400).send({
+              updated: false,
+              entryId
+            })
+          }
+        })
+        .catch(error => {
+            return res.status(500).send(error);
+          }
+        );
     })
-        .then(dataEntry => res.status(201).json({
-            dataEntry
-        }))
-        .catch(error => res.status(500).json({
-            error
-        }));
-});
-
-router.delete('/:id', function (req, res, next) {
-    const data_id = req.params.id;
-    console.log("inside delete");
-
-    DataEntry.destroy({
-        where: {
-            id: data_id
-        }
+    .catch(error => {
+      return res.status(500).send(error);
     })
-        .then( status => res.status(201).json({
-            status
-        }))
-        .catch(err => res.status(500).json({
-            err
-        }));
-});
+};
 
-module.exports = router;
+const deleteEntry = (req, res) => {
+  const entryId = req.params.id;
+
+  DataEntry.destroy({
+    where: {
+      id: entryId
+    }
+  })
+    .then( otherName => {
+      console.log("res: ", otherName)
+      return res.status(204).send({otherName});
+    })
+    .catch(error => {
+      console.log("errore: ", error)
+      return res.status(500).send(error);
+    })
+};
+
+module.exports = {
+  getEntry,
+  getEntryById,
+  editEntry,
+  deleteEntry,
+  createEntry
+};

@@ -10,7 +10,6 @@ import { MovieData } from '../../models/data.model';
 })
 export class DashboardComponent implements OnInit {
 
-  
   constructor( private dataService: DataService, private router : Router) { }
 
   ngOnInit(): void {

@@ -38,7 +38,5 @@ export class DetailsComponent implements OnInit {
       console.log(err);
       this.router.navigate(['/dashboard']);
     });
-    //this.router.navigate(['/dashboard']);
-
   }
 }
