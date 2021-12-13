@@ -10,6 +10,8 @@ import { AddComponent } from './routes/add/add.component';
 import { DetailsComponent } from './routes/details/details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditComponent } from './routes/edit/edit.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { EditComponent } from './routes/edit/edit.component';
     DashboardComponent,
     AddComponent,
     DetailsComponent,
-    EditComponent
+    EditComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
