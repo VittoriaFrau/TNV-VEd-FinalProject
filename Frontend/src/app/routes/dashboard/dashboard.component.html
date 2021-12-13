@@ -3,14 +3,6 @@
     The Net Fish
   </h1>
 
-  <div class="text-right">
-    
-    <button type="button"  style="font-size: 30px" class="btn btn-default" aria-label="Left Align" [routerLink]='["/add"]'>
-      <span class="fas fa-plus" aria-hidden="true"></span>
-      </button>
-
-  </div>
-
   <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -30,3 +22,4 @@
     </tbody>
   </table>
 </div>
+<app-loading-screen *ngIf="!moviesDataLoader" ></app-loading-screen>

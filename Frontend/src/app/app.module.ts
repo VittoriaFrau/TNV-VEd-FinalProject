@@ -12,6 +12,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditComponent } from './routes/edit/edit.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
+import { WelcomeComponent } from './routes/welcome/welcome.component';
+import { FilterByGenreComponent } from './routes/filter-by-genre/filter-by-genre.component';
+import { FilterGenrePipe } from './pipes/filterGenre.pipe';
+import { LoginComponent } from './routes/login/login.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +26,12 @@ import { FooterComponent } from './components/footer/footer.component';
     DetailsComponent,
     EditComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    LoadingScreenComponent,
+    WelcomeComponent,
+    FilterByGenreComponent,
+    FilterGenrePipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
