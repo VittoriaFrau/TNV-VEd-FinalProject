@@ -7,6 +7,7 @@ import { EditComponent } from './routes/edit/edit.component';
 import { WelcomeComponent } from './routes/welcome/welcome.component';
 import { FilterByGenreComponent } from './routes/filter-by-genre/filter-by-genre.component';
 import { LoginComponent } from './routes/login/login.component';
+import { TheMovieApiComponent } from './routes/the-movie-api/the-movie-api.component';
 
 
 const routes: Routes = [
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: "edit/:id", component: EditComponent },
   { path: "landingPage", component: WelcomeComponent},
   { path: "filterbygenre", component: FilterByGenreComponent},
-  { path: "login", component: LoginComponent}
+  { path: "login", component: LoginComponent},
+  { path: "themovieapi", component: TheMovieApiComponent}
 ];
 
 @NgModule({
